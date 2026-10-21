@@ -4,13 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wireframe UI - 4 Main Pages</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
         body { display: flex; height: 100vh; background-color: #f4f6f9; color: #333; }
-        .sidebar { width: 240px; background-color: #1e293b; color: #fff; padding: 20px; display: flex; flex-direction: column; gap: 20px; }
+        .sidebar { width: 240px; background-color: #1e293b; color: #fff; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
         .sidebar h2 { font-size: 1.2rem; color: #38bdf8; border-bottom: 1px solid #334155; padding-bottom: 10px; }
-        .menu-btn { background: none; border: none; color: #94a3b8; padding: 12px; text-align: left; font-size: 1rem; cursor: pointer; border-radius: 6px; transition: 0.2s; }
+        .menu-btn { background: none; border: none; color: #94a3b8; padding: 12px; text-align: left; font-size: 1rem; cursor: pointer; border-radius: 6px; }
         .menu-btn:hover, .menu-btn.active { background-color: #0f172a; color: #38bdf8; font-weight: bold; }
         .main-content { flex: 1; padding: 25px; overflow-y: auto; }
         .page { display: none; }
@@ -38,15 +37,19 @@
         .pagination { display: flex; justify-content: flex-end; gap: 5px; margin-top: 15px; }
         .page-num { padding: 6px 12px; border: 1px solid #cbd5e1; background: #fff; border-radius: 4px; cursor: pointer; }
         .page-num.active { background: #0284c7; color: #fff; border-color: #0284c7; }
+        
+        /* CSS Simple Chart Simulation */
+        .bar-chart { display: flex; align-items: flex-end; gap: 15px; height: 150px; padding-top: 20px; }
+        .bar { flex: 1; background: #38bdf8; border-radius: 4px 4px 0 0; text-align: center; color: #fff; font-size: 0.75rem; padding-top: 5px; }
     </style>
 </head>
 <body>
     <div class="sidebar">
         <h2>System Wireframe</h2>
-        <button class="menu-btn active" onclick="switchPage('dashboard', this)">1. Dashboard</button>
-        <button class="menu-btn" onclick="switchPage('index', this)">2. Index Page</button>
-        <button class="menu-btn" onclick="switchPage('form', this)">3. Create/Edit Form</button>
-        <button class="menu-btn" onclick="switchPage('report', this)">4. Report Page</button>
+        <button class="menu-btn active" onclick="showPage('dashboard', this)">1. Dashboard</button>
+        <button class="menu-btn" onclick="showPage('index', this)">2. Index Page</button>
+        <button class="menu-btn" onclick="showPage('form', this)">3. Create/Edit Form</button>
+        <button class="menu-btn" onclick="showPage('report', this)">4. Report Page</button>
     </div>
 
     <div class="main-content">
@@ -62,11 +65,23 @@
             <div class="charts-grid">
                 <div class="card">
                     <h4>แนวโน้มการใช้บริการรายวัน (Daily Usage Trend)</h4>
-                    <canvas id="lineChart" height="120"></canvas>
+                    <div class="bar-chart">
+                        <div class="bar" style="height: 40%;">จ.</div>
+                        <div class="bar" style="height: 65%;">อ.</div>
+                        <div class="bar" style="height: 50%;">พ.</div>
+                        <div class="bar" style="height: 60%;">พฤ.</div>
+                        <div class="bar" style="height: 80%;">ศ.</div>
+                        <div class="bar" style="height: 100%; background:#0284c7;">ส.</div>
+                        <div class="bar" style="height: 90%; background:#0284c7;">อา.</div>
+                    </div>
                 </div>
                 <div class="card">
-                    <h4>สัดส่วนประเภทบริการ (Service Types)</h4>
-                    <canvas id="pieChart"></canvas>
+                    <h4>สัดส่วนประเภทบริการ (Service Share)</h4>
+                    <div style="margin-top:20px; font-size:0.9rem; line-height:2;">
+                        <p>🔵 ผู้ใหญ่: <b>55%</b></p>
+                        <p>🔷 นักเรียน: <b>30%</b></p>
+                        <p>🔹 เด็กเล็ก: <b>15%</b></p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -82,7 +97,7 @@
                         <option>รอรับบริการ</option>
                         <option>เสร็จสิ้น</option>
                     </select>
-                    <button class="btn" onclick="switchPage('form')">+ เพิ่มข้อมูลใหม่</button>
+                    <button class="btn" onclick="showPage('form')">+ เพิ่มข้อมูลใหม่</button>
                 </div>
             </div>
             <table>
@@ -105,7 +120,7 @@
                         <td>081-234-5678</td>
                         <td>ผู้ใหญ่ (100 บ.)</td>
                         <td><span class="badge badge-warning">รอรับบริการ</span></td>
-                        <td><button class="btn btn-secondary" onclick="switchPage('form')" style="padding:4px 8px; font-size:0.8rem;">แก้ไข</button></td>
+                        <td><button class="btn btn-secondary" onclick="showPage('form')" style="padding:4px 8px; font-size:0.8rem;">แก้ไข</button></td>
                     </tr>
                     <tr>
                         <td>#102</td>
@@ -114,7 +129,7 @@
                         <td>089-876-5432</td>
                         <td>นักเรียน (80 บ.)</td>
                         <td><span class="badge badge-success">เสร็จสิ้น</span></td>
-                        <td><button class="btn btn-secondary" onclick="switchPage('form')" style="padding:4px 8px; font-size:0.8rem;">แก้ไข</button></td>
+                        <td><button class="btn btn-secondary" onclick="showPage('form')" style="padding:4px 8px; font-size:0.8rem;">แก้ไข</button></td>
                     </tr>
                 </tbody>
             </table>
@@ -131,7 +146,7 @@
         <div id="form" class="page">
             <h2 class="page-title">3. หน้าฟอร์มเพิ่ม/แก้ไขข้อมูล (Form Design)</h2>
             <div class="form-container">
-                <form onsubmit="event.preventDefault(); alert('บันทึกข้อมูลเรียบร้อย!'); switchPage('index');">
+                <form onsubmit="event.preventDefault(); alert('บันทึกข้อมูลเรียบร้อย!'); showPage('index');">
                     <div class="form-group">
                         <label>ชื่อ-นามสกุล ผู้รับบริการ</label>
                         <input type="text" class="input-box" placeholder="เช่น สมชาย ใจดี" required>
@@ -155,7 +170,7 @@
                     </div>
                     <div style="display: flex; gap: 10px; margin-top: 20px;">
                         <button type="submit" class="btn">บันทึกข้อมูล (Save)</button>
-                        <button type="button" class="btn btn-secondary" onclick="switchPage('index')">ยกเลิก (Cancel)</button>
+                        <button type="button" class="btn btn-secondary" onclick="showPage('index')">ยกเลิก (Cancel)</button>
                     </div>
                 </form>
             </div>
@@ -220,17 +235,28 @@
     </div>
 
     <script>
-        function switchPage(pageId, element) {
-            document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
-            document.querySelectorAll('.menu-btn').forEach(function(b) { b.classList.remove('active'); });
+        function showPage(pageId, btn) {
+            var pages = document.querySelectorAll('.page');
+            for (var i = 0; i < pages.length; i++) {
+                pages[i].classList.remove('active');
+            }
             
-            var targetPage = document.getElementById(pageId);
-            if (targetPage) { targetPage.classList.add('active'); }
+            var btns = document.querySelectorAll('.menu-btn');
+            for (var j = 0; j < btns.length; j++) {
+                btns[j].classList.remove('active');
+            }
             
-            if (element && element.classList) {
-                element.classList.add('active');
+            document.getElementById(pageId).classList.add('active');
+            
+            if (btn) {
+                btn.classList.add('active');
             } else {
-                var menuBtns = document.querySelectorAll('.menu-btn');
-                if (pageId === 'dashboard' && menuBtns[0]) menuBtns[0].classList.add('active');
-                if (pageId === 'index' && menuBtns[1]) menuBtns[1].classList.add('active');
-                if (
+                if (pageId === 'dashboard') btns[0].classList.add('active');
+                if (pageId === 'index') btns[1].classList.add('active');
+                if (pageId === 'form') btns[2].classList.add('active');
+                if (pageId === 'report') btns[3].classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>
