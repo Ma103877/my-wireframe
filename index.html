@@ -105,7 +105,7 @@
                         <td>081-234-5678</td>
                         <td>ผู้ใหญ่ (100 บ.)</td>
                         <td><span class="badge badge-warning">รอรับบริการ</span></td>
-                        <td><button class="btn btn-secondary" style="padding:4px 8px; font-size:0.8rem;">แก้ไข</button></td>
+                        <td><button class="btn btn-secondary" onclick="switchPage('form')" style="padding:4px 8px; font-size:0.8rem;">แก้ไข</button></td>
                     </tr>
                     <tr>
                         <td>#102</td>
@@ -114,7 +114,7 @@
                         <td>089-876-5432</td>
                         <td>นักเรียน (80 บ.)</td>
                         <td><span class="badge badge-success">เสร็จสิ้น</span></td>
-                        <td><button class="btn btn-secondary" style="padding:4px 8px; font-size:0.8rem;">แก้ไข</button></td>
+                        <td><button class="btn btn-secondary" onclick="switchPage('form')" style="padding:4px 8px; font-size:0.8rem;">แก้ไข</button></td>
                     </tr>
                 </tbody>
             </table>
@@ -131,5 +131,106 @@
         <div id="form" class="page">
             <h2 class="page-title">3. หน้าฟอร์มเพิ่ม/แก้ไขข้อมูล (Form Design)</h2>
             <div class="form-container">
-                <form onsubmit="event.preventDefault(); alert('บันทึกข้อมูลเรียบร้อย!');">
+                <form onsubmit="event.preventDefault(); alert('บันทึกข้อมูลเรียบร้อย!'); switchPage('index');">
                     <div class="form-group">
+                        <label>ชื่อ-นามสกุล ผู้รับบริการ</label>
+                        <input type="text" class="input-box" placeholder="เช่น สมชาย ใจดี" required>
+                    </div>
+                    <div class="form-group">
+                        <label>เบอร์โทรศัพท์</label>
+                        <input type="tel" class="input-box" placeholder="08X-XXX-XXXX" required>
+                    </div>
+                    <div class="form-group">
+                        <label>เลือกประเภทบริการ</label>
+                        <select class="select-box" required>
+                            <option value="">-- เลือกบริการ --</option>
+                            <option>เด็กเล็ก (60 บาท)</option>
+                            <option>นักเรียน (80 บาท)</option>
+                            <option>ผู้ใหญ่ (100 บาท)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>วันที่ต้องการรับบริการ</label>
+                        <input type="date" class="input-box" required>
+                    </div>
+                    <div style="display: flex; gap: 10px; margin-top: 20px;">
+                        <button type="submit" class="btn">บันทึกข้อมูล (Save)</button>
+                        <button type="button" class="btn btn-secondary" onclick="switchPage('index')">ยกเลิก (Cancel)</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- 4. REPORT PAGE -->
+        <div id="report" class="page">
+            <h2 class="page-title">4. หน้ารายงาน (Report - Filter + Table)</h2>
+            <div class="toolbar" style="background: #fff; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                    <label>ช่วงวันที่:</label>
+                    <input type="date" class="input-box" value="2026-10-01">
+                    <label>ถึง</label>
+                    <input type="date" class="input-box" value="2026-10-21">
+                    <select class="select-box">
+                        <option>ช่างตัดผมทั้งหมด</option>
+                        <option>ช่างโชค</option>
+                    </select>
+                    <button class="btn">ค้นหารายงาน</button>
+                </div>
+                <button class="btn btn-secondary">📥 Export CSV/PDF</button>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>วันที่</th>
+                        <th>จำนวนคิวทั้งหมด</th>
+                        <th>รอดำเนินการ</th>
+                        <th>เสร็จสิ้น</th>
+                        <th>ยกเลิก</th>
+                        <th>ยอดรวมรายได้</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2026-10-21</td>
+                        <td>15 คิว</td>
+                        <td>3 คิว</td>
+                        <td>11 คิว</td>
+                        <td>1 คิว</td>
+                        <td>฿1,650</td>
+                    </tr>
+                    <tr>
+                        <td>2026-10-20</td>
+                        <td>18 คิว</td>
+                        <td>0 คิว</td>
+                        <td>18 คิว</td>
+                        <td>0 คิว</td>
+                        <td>฿2,100</td>
+                    </tr>
+                    <tr style="font-weight: bold; background-color: #f1f5f9;">
+                        <td>รวมทั้งสิ้น (Total)</td>
+                        <td>33 คิว</td>
+                        <td>3 คิว</td>
+                        <td>29 คิว</td>
+                        <td>1 คิว</td>
+                        <td>฿3,750</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function switchPage(pageId, element) {
+            document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+            document.querySelectorAll('.menu-btn').forEach(function(b) { b.classList.remove('active'); });
+            
+            var targetPage = document.getElementById(pageId);
+            if (targetPage) { targetPage.classList.add('active'); }
+            
+            if (element && element.classList) {
+                element.classList.add('active');
+            } else {
+                var menuBtns = document.querySelectorAll('.menu-btn');
+                if (pageId === 'dashboard' && menuBtns[0]) menuBtns[0].classList.add('active');
+                if (pageId === 'index' && menuBtns[1]) menuBtns[1].classList.add('active');
+                if (
